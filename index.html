@@ -1,1 +1,1498 @@
-<!-- After me -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After-Me | Digital Will</title>
+    <style>
+        /* ============================================
+           GLOBAL STYLES & RESET
+           ============================================ */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        input, textarea, select {
+            font-family: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ============================================
+           LOGIN PAGE STYLES
+           ============================================ */
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .logo-section h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .tagline {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .login-content {
+            padding: 30px;
+        }
+
+        .intro-text {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            min-height: 20px;
+            font-weight: 500;
+        }
+
+        .login-footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* ============================================
+           DASHBOARD STYLES
+           ============================================ */
+
+        .dashboard-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-header {
+            background: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-header h1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2em;
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-password {
+            color: #666;
+            font-weight: 600;
+            padding: 8px 12px;
+            background: #f0f0f0;
+            border-radius: 6px;
+        }
+
+        .access-mode {
+            color: white;
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+
+        .access-mode.editor {
+            background: #27ae60;
+        }
+
+        .access-mode.viewer {
+            background: #e67e22;
+        }
+
+        .dashboard-main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 40px 20px;
+        }
+
+        .dashboard-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .section-header h2 {
+            color: #333;
+            font-size: 2em;
+        }
+
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 1.2em;
+        }
+
+        /* ============================================
+           PROFILE CARD STYLES
+           ============================================ */
+
+        .profile-card-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .profile-card-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .no-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-content h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+
+        .theme-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .card-preview {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        /* Theme-specific colors for cards */
+
+        .theme-love {
+            border-top: 4px solid #ff6b9d;
+        }
+
+        .theme-love .card-image {
+            background: #ffe0e8;
+        }
+
+        .theme-friend {
+            border-top: 4px solid #4ecdc4;
+        }
+
+        .theme-friend .card-image {
+            background: #e0f7f6;
+        }
+
+        .theme-family {
+            border-top: 4px solid #ffa502;
+        }
+
+        .theme-family .card-image {
+            background: #ffe8cc;
+        }
+
+        .theme-colleague {
+            border-top: 4px solid #2c3e50;
+        }
+
+        .theme-colleague .card-image {
+            background: #ecf0f1;
+        }
+
+        .theme-mentor {
+            border-top: 4px solid #8e44ad;
+        }
+
+        .theme-mentor .card-image {
+            background: #f4e8ff;
+        }
+
+        .theme-other {
+            border-top: 4px solid #f39c12;
+        }
+
+        .theme-other .card-image {
+            background: #fef5e7;
+        }
+
+        /* ============================================
+           BUTTON STYLES
+           ============================================ */
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-disabled {
+            background: #95a5a6;
+            color: white;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-disabled:hover {
+            background: #95a5a6;
+            transform: none;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        /* ============================================
+           MODAL STYLES
+           ============================================ */
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal.hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .modal-header h2 {
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .profile-form {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .form-actions button {
+            flex: 1;
+        }
+
+        .readonly-notice {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* ============================================
+           PROFILE PAGE STYLES
+           ============================================ */
+
+        .profile-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-header {
+            background: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn {
+            background: #e0e0e0;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #d0d0d0;
+        }
+
+        .profile-header h1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2em;
+        }
+
+        .profile-main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .profile-display {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .profile-image-section {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5em;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-no-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5em;
+        }
+
+        .profile-info-section {
+            padding: 40px;
+        }
+
+        .profile-info-section h2 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 12px;
+        }
+
+        .profile-theme-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            font-size: 1em;
+        }
+
+        .profile-message {
+            margin-bottom: 30px;
+        }
+
+        .profile-message h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .profile-message p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .profile-actions .btn {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .profile-meta {
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #999;
+        }
+
+        /* Theme-specific background for profile display */
+
+        .theme-love {
+            border-top: 5px solid #ff6b9d;
+        }
+
+        .theme-love .profile-image-section,
+        .theme-love .profile-no-image {
+            background: #ffe0e8;
+        }
+
+        .theme-love .profile-theme-badge {
+            background: #ffe0e8;
+            color: #ff6b9d;
+        }
+
+        .theme-friend {
+            border-top: 5px solid #4ecdc4;
+        }
+
+        .theme-friend .profile-image-section,
+        .theme-friend .profile-no-image {
+            background: #e0f7f6;
+        }
+
+        .theme-friend .profile-theme-badge {
+            background: #e0f7f6;
+            color: #4ecdc4;
+        }
+
+        .theme-family {
+            border-top: 5px solid #ffa502;
+        }
+
+        .theme-family .profile-image-section,
+        .theme-family .profile-no-image {
+            background: #ffe8cc;
+        }
+
+        .theme-family .profile-theme-badge {
+            background: #ffe8cc;
+            color: #ffa502;
+        }
+
+        .theme-colleague {
+            border-top: 5px solid #2c3e50;
+        }
+
+        .theme-colleague .profile-image-section,
+        .theme-colleague .profile-no-image {
+            background: #ecf0f1;
+        }
+
+        .theme-colleague .profile-theme-badge {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .theme-mentor {
+            border-top: 5px solid #8e44ad;
+        }
+
+        .theme-mentor .profile-image-section,
+        .theme-mentor .profile-no-image {
+            background: #f4e8ff;
+        }
+
+        .theme-mentor .profile-theme-badge {
+            background: #f4e8ff;
+            color: #8e44ad;
+        }
+
+        .theme-other {
+            border-top: 5px solid #f39c12;
+        }
+
+        .theme-other .profile-image-section,
+        .theme-other .profile-no-image {
+            background: #fef5e7;
+        }
+
+        .theme-other .profile-theme-badge {
+            background: #fef5e7;
+            color: #f39c12;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+
+        @media (max-width: 768px) {
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .profiles-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .profile-card-item {
+                margin: 0;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-height: 95vh;
+            }
+
+            .profile-info-section {
+                padding: 25px;
+            }
+
+            .profile-image-section {
+                height: 200px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .header-info {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .profile-actions {
+                flex-direction: column;
+            }
+
+            .profile-actions .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-header h1,
+            .profile-header h1 {
+                font-size: 1.5em;
+            }
+
+            .profiles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-info-section {
+                padding: 20px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions button {
+                width: 100%;
+            }
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================================
+         LOGIN PAGE
+         ============================================ -->
+    <div id="loginPage" class="page active">
+        <div class="login-container">
+            <div class="login-box">
+                <div class="logo-section">
+                    <h1>After-Me</h1>
+                    <p class="tagline">Your Digital Legacy</p>
+                </div>
+                
+                <div class="login-content">
+                    <p class="intro-text">This is a secure space to preserve your memories and messages for the people who matter most.</p>
+                    
+                    <form id="loginForm" class="login-form">
+                        <div class="form-group">
+                            <label for="password">Enter Master Password:</label>
+                            <input type="password" id="password" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="login-btn">Access Your Will</button>
+                    </form>
+                    
+                    <div id="errorMsg" class="error-message"></div>
+                </div>
+                
+                <div class="login-footer">
+                    <p>🔒 Your data is stored locally and encrypted. No server required.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         DASHBOARD PAGE
+         ============================================ -->
+    <div id="dashboardPage" class="page">
+        <div class="dashboard-container">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-content">
+                    <h1>After-Me</h1>
+                    <div class="header-info">
+                        <span class="user-password" id="userPassword"></span>
+                        <span class="access-mode" id="accessMode"></span>
+                        <button class="logout-btn" onclick="app.logout()">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="dashboard-main">
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2>My Profiles</h2>
+                        <button class="btn btn-primary" id="addProfileBtn" onclick="app.openAddProfileModal()">+ Add New Profile</button>
+                    </div>
+
+                    <div id="profilesGrid" class="profiles-grid">
+                        <!-- Profiles will be loaded here -->
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Add/Edit Profile Modal -->
+        <div id="profileModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Add New Profile</h2>
+                    <button class="close-btn" onclick="app.closeProfileModal()">&times;</button>
+                </div>
+                
+                <form id="profileForm" class="profile-form">
+                    <div class="form-group">
+                        <label for="profileName">Person's Name:</label>
+                        <input type="text" id="profileName" placeholder="Enter name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profileTheme">Relationship Theme:</label>
+                        <select id="profileTheme" required>
+                            <option value="">Select a theme</option>
+                            <option value="love">❤️ Love</option>
+                            <option value="friend">👥 Friend</option>
+                            <option value="family">👨‍👩‍👧‍👦 Family</option>
+                            <option value="colleague">💼 Colleague</option>
+                            <option value="mentor">🎓 Mentor</option>
+                            <option value="other">⭐ Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profileImage">Profile Picture:</label>
+                        <input type="file" id="profileImage" accept="image/*">
+                        <small>Optional: Add a photo</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profileMessage">Your Message/Will:</label>
+                        <textarea id="profileMessage" placeholder="Write your message, memories, or wishes..." rows="8" required></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="app.closeProfileModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         PROFILE VIEW PAGE
+         ============================================ -->
+    <div id="profilePage" class="page">
+        <div class="profile-container">
+            <!-- Header -->
+            <header class="profile-header">
+                <button class="back-btn" onclick="app.goBack()">← Back</button>
+                <h1>After-Me</h1>
+                <button class="logout-btn" onclick="app.logout()">Logout</button>
+            </header>
+
+            <!-- Profile Content -->
+            <main class="profile-main">
+                <div class="profile-card" id="profileCard">
+                    <!-- Profile will be loaded here -->
+                </div>
+            </main>
+        </div>
+
+        <!-- Edit Profile Modal -->
+        <div id="editModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Edit Profile</h2>
+                    <button class="close-btn" onclick="app.closeEditModal()">&times;</button>
+                </div>
+                
+                <form id="editForm" class="profile-form">
+                    <div class="readonly-notice" id="readonlyNotice" style="display: none;">
+                        ⚠️ You are in read-only mode. Only the editor password can modify profiles.
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editName">Person's Name:</label>
+                        <input type="text" id="editName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editTheme">Relationship Theme:</label>
+                        <select id="editTheme" required>
+                            <option value="love">❤️ Love</option>
+                            <option value="friend">👥 Friend</option>
+                            <option value="family">👨‍👩‍👧‍👦 Family</option>
+                            <option value="colleague">💼 Colleague</option>
+                            <option value="mentor">🎓 Mentor</option>
+                            <option value="other">⭐ Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editImage">Profile Picture:</label>
+                        <input type="file" id="editImage" accept="image/*">
+                        <small>Optional: Update photo</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editMessage">Your Message/Will:</label>
+                        <textarea id="editMessage" rows="8" required></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="app.closeEditModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="editSubmitBtn">Update Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // CONFIGURATION & CONSTANTS
+        // ============================================
+
+        const PASSWORDS = {
+            editor: 'family2026',    // Can add, edit, and delete profiles
+            viewer: 'legacy2026'     // Read-only mode - can only view profiles
+        };
+
+        const STORAGE_KEY = 'afterMeProfiles';
+        const SESSION_KEY = 'afterMeSession';
+        const USER_ROLE_KEY = 'afterMeUserRole';
+
+        // Theme configuration
+        const THEMES = {
+            love: {
+                name: 'Love',
+                emoji: '❤️',
+                color: '#ff6b9d',
+                bg: '#ffe0e8'
+            },
+            friend: {
+                name: 'Friend',
+                emoji: '👥',
+                color: '#4ecdc4',
+                bg: '#e0f7f6'
+            },
+            family: {
+                name: 'Family',
+                emoji: '👨‍👩‍👧‍👦',
+                color: '#ffa502',
+                bg: '#ffe8cc'
+            },
+            colleague: {
+                name: 'Colleague',
+                emoji: '💼',
+                color: '#2c3e50',
+                bg: '#ecf0f1'
+            },
+            mentor: {
+                name: 'Mentor',
+                emoji: '🎓',
+                color: '#8e44ad',
+                bg: '#f4e8ff'
+            },
+            other: {
+                name: 'Other',
+                emoji: '⭐',
+                color: '#f39c12',
+                bg: '#fef5e7'
+            }
+        };
+
+        // ============================================
+        // MAIN APP OBJECT
+        // ============================================
+
+        const app = {
+            userRole: null,
+
+            // ============================================
+            // INITIALIZATION
+            // ============================================
+
+            init() {
+                this.checkAuthentication();
+                this.attachEventListeners();
+            },
+
+            attachEventListeners() {
+                const loginForm = document.getElementById('loginForm');
+                if (loginForm) {
+                    loginForm.addEventListener('submit', (e) => this.handleLogin(e));
+                }
+
+                const profileForm = document.getElementById('profileForm');
+                if (profileForm) {
+                    profileForm.addEventListener('submit', (e) => this.handleAddProfile(e));
+                }
+
+                const editForm = document.getElementById('editForm');
+                if (editForm) {
+                    editForm.addEventListener('submit', (e) => this.handleEditProfile(e));
+                }
+            },
+
+            // ============================================
+            // PAGE NAVIGATION
+            // ============================================
+
+            showPage(pageId) {
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                document.getElementById(pageId).classList.add('active');
+            },
+
+            goToDashboard() {
+                this.showPage('dashboardPage');
+                this.displayUserPassword();
+                this.loadProfiles();
+            },
+
+            goToProfile(profileId) {
+                sessionStorage.setItem('currentProfileId', profileId);
+                this.showPage('profilePage');
+                this.loadProfileView();
+            },
+
+            goBack() {
+                sessionStorage.removeItem('currentProfileId');
+                this.goToDashboard();
+            },
+
+            // ============================================
+            // AUTHENTICATION
+            // ============================================
+
+            checkAuthentication() {
+                if (!sessionStorage.getItem(SESSION_KEY)) {
+                    this.showPage('loginPage');
+                } else {
+                    this.userRole = sessionStorage.getItem(USER_ROLE_KEY);
+                }
+            },
+
+            handleLogin(e) {
+                e.preventDefault();
+                const password = document.getElementById('password').value;
+                const errorMsg = document.getElementById('errorMsg');
+                
+                let role = null;
+                if (password === PASSWORDS.editor) {
+                    role = 'editor';
+                } else if (password === PASSWORDS.viewer) {
+                    role = 'viewer';
+                }
+
+                if (role) {
+                    sessionStorage.setItem(SESSION_KEY, password);
+                    sessionStorage.setItem(USER_ROLE_KEY, role);
+                    this.userRole = role;
+                    errorMsg.textContent = '';
+                    this.goToDashboard();
+                } else {
+                    errorMsg.textContent = '❌ Invalid password. Please try again.';
+                    document.getElementById('password').value = '';
+                }
+            },
+
+            logout() {
+                sessionStorage.removeItem(SESSION_KEY);
+                sessionStorage.removeItem('currentProfileId');
+                sessionStorage.removeItem(USER_ROLE_KEY);
+                this.userRole = null;
+                document.getElementById('loginForm').reset();
+                this.showPage('loginPage');
+            },
+
+            displayUserPassword() {
+                const password = sessionStorage.getItem(SESSION_KEY);
+                const userPasswordEl = document.getElementById('userPassword');
+                const accessModeEl = document.getElementById('accessMode');
+                
+                if (userPasswordEl) {
+                    userPasswordEl.textContent = `Logged in with: ${password.substring(0, 3)}****`;
+                }
+                
+                if (accessModeEl) {
+                    if (this.userRole === 'editor') {
+                        accessModeEl.textContent = '✏️ Editor Mode';
+                        accessModeEl.className = 'access-mode editor';
+                    } else {
+                        accessModeEl.textContent = '👁️ Viewer Mode';
+                        accessModeEl.className = 'access-mode viewer';
+                    }
+                }
+
+                // Hide add button if viewer
+                const addProfileBtn = document.getElementById('addProfileBtn');
+                if (addProfileBtn) {
+                    if (this.userRole === 'viewer') {
+                        addProfileBtn.style.display = 'none';
+                    } else {
+                        addProfileBtn.style.display = 'inline-block';
+                    }
+                }
+            },
+
+            // ============================================
+            // DASHBOARD FUNCTIONS
+            // ============================================
+
+            loadProfiles() {
+                const profiles = this.getAllProfiles();
+                const grid = document.getElementById('profilesGrid');
+                
+                if (!grid) return;
+                
+                if (profiles.length === 0) {
+                    grid.innerHTML = `
+                        <div class="empty-state">
+                            <p>📝 No profiles yet. ${this.userRole === 'editor' ? 'Create your first profile to get started!' : 'Check back later for profiles.'}</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                grid.innerHTML = profiles.map(profile => this.createProfileCard(profile)).join('');
+            },
+
+            createProfileCard(profile) {
+                const theme = THEMES[profile.theme] || THEMES.other;
+                return `
+                    <div class="profile-card-item theme-${profile.theme}" onclick="app.goToProfile('${profile.id}')">
+                        <div class="card-image">
+                            ${profile.image ? `<img src="${profile.image}" alt="${profile.name}">` : `<div class="no-image">${theme.emoji}</div>`}
+                        </div>
+                        <div class="card-content">
+                            <h3>${profile.name}</h3>
+                            <p class="theme-badge">${theme.emoji} ${theme.name}</p>
+                            <p class="card-preview">${profile.message.substring(0, 50)}...</p>
+                        </div>
+                    </div>
+                `;
+            },
+
+            openAddProfileModal() {
+                if (this.userRole !== 'editor') {
+                    alert('⚠️ Only editor mode can add profiles.');
+                    return;
+                }
+                
+                document.getElementById('profileModal').classList.remove('hidden');
+                document.getElementById('modalTitle').textContent = 'Add New Profile';
+                document.getElementById('profileForm').reset();
+            },
+
+            closeProfileModal() {
+                document.getElementById('profileModal').classList.add('hidden');
+            },
+
+            handleAddProfile(e) {
+                e.preventDefault();
+                
+                if (this.userRole !== 'editor') {
+                    alert('⚠️ Only editor mode can add profiles.');
+                    return;
+                }
+                
+                const name = document.getElementById('profileName').value;
+                const theme = document.getElementById('profileTheme').value;
+                const message = document.getElementById('profileMessage').value;
+                const imageInput = document.getElementById('profileImage');
+                
+                if (imageInput.files && imageInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        const image = event.target.result;
+                        this.createProfile(name, theme, message, image);
+                        this.closeProfileModal();
+                        this.loadProfiles();
+                    };
+                    reader.readAsDataURL(imageInput.files[0]);
+                } else {
+                    this.createProfile(name, theme, message, null);
+                    this.closeProfileModal();
+                    this.loadProfiles();
+                }
+            },
+
+            // ============================================
+            // PROFILE VIEW FUNCTIONS
+            // ============================================
+
+            loadProfileView() {
+                const profileId = sessionStorage.getItem('currentProfileId');
+                const profile = this.getProfileById(profileId);
+                
+                if (!profile) {
+                    this.goToDashboard();
+                    return;
+                }
+                
+                const theme = THEMES[profile.theme] || THEMES.other;
+                const card = document.getElementById('profileCard');
+                
+                const editDeleteButtons = this.userRole === 'editor' ? `
+                    <button class="btn btn-primary" onclick="app.openEditModal()">✏️ Edit Profile</button>
+                    <button class="btn btn-danger" onclick="app.deleteProfile()">🗑️ Delete Profile</button>
+                ` : '';
+                
+                card.innerHTML = `
+                    <div class="profile-display theme-${profile.theme}">
+                        <div class="profile-image-section">
+                            ${profile.image ? `<img src="${profile.image}" alt="${profile.name}" class="profile-image">` : `<div class="profile-no-image">${theme.emoji}</div>`}
+                        </div>
+                        
+                        <div class="profile-info-section">
+                            <h2>${profile.name}</h2>
+                            <p class="profile-theme-badge">${theme.emoji} ${theme.name}</p>
+                            <div class="profile-message">
+                                <h3>My Message</h3>
+                                <p>${profile.message.split('\n').join('<br>')}</p>
+                            </div>
+                            
+                            <div class="profile-actions">
+                                <button class="btn btn-secondary" onclick="app.goBack()">← Back to Dashboard</button>
+                                ${editDeleteButtons}
+                            </div>
+                            
+                            <div class="profile-meta">
+                                <small>Created: ${new Date(profile.createdAt).toLocaleDateString()}</small>
+                                <small>Last Modified: ${new Date(profile.updatedAt).toLocaleDateString()}</small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            openEditModal() {
+                if (this.userRole !== 'editor') {
+                    alert('⚠️ Only editor mode can edit profiles.');
+                    return;
+                }
+
+                const profileId = sessionStorage.getItem('currentProfileId');
+                const profile = this.getProfileById(profileId);
+                
+                if (!profile) return;
+                
+                document.getElementById('editName').value = profile.name;
+                document.getElementById('editTheme').value = profile.theme;
+                document.getElementById('editMessage').value = profile.message;
+                document.getElementById('readonlyNotice').style.display = 'none';
+                
+                document.getElementById('editModal').classList.remove('hidden');
+            },
+
+            closeEditModal() {
+                document.getElementById('editModal').classList.add('hidden');
+            },
+
+            handleEditProfile(e) {
+                e.preventDefault();
+
+                if (this.userRole !== 'editor') {
+                    alert('⚠️ Only editor mode can edit profiles.');
+                    return;
+                }
+
+                const profileId = sessionStorage.getItem('currentProfileId');
+                
+                const name = document.getElementById('editName').value;
+                const theme = document.getElementById('editTheme').value;
+                const message = document.getElementById('editMessage').value;
+                const imageInput = document.getElementById('editImage');
+                
+                const profile = this.getProfileById(profileId);
+                let image = profile.image;
+                
+                if (imageInput.files && imageInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        image = event.target.result;
+                        this.updateProfile(profileId, name, theme, message, image);
+                        this.closeEditModal();
+                        this.loadProfileView();
+                    };
+                    reader.readAsDataURL(imageInput.files[0]);
+                } else {
+                    this.updateProfile(profileId, name, theme, message, image);
+                    this.closeEditModal();
+                    this.loadProfileView();
+                }
+            },
+
+            deleteProfile() {
+                if (this.userRole !== 'editor') {
+                    alert('⚠️ Only editor mode can delete profiles.');
+                    return;
+                }
+
+                if (confirm('Are you sure you want to delete this profile? This action cannot be undone.')) {
+                    const profileId = sessionStorage.getItem('currentProfileId');
+                    this.removeProfile(profileId);
+                    this.goBack();
+                }
+            },
+
+            // ============================================
+            // DATA MANAGEMENT FUNCTIONS
+            // ============================================
+
+            getAllProfiles() {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : [];
+            },
+
+            getProfileById(id) {
+                return this.getAllProfiles().find(p => p.id === id);
+            },
+
+            createProfile(name, theme, message, image) {
+                const profiles = this.getAllProfiles();
+                const newProfile = {
+                    id: 'profile_' + Date.now(),
+                    name,
+                    theme,
+                    message,
+                    image,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                profiles.push(newProfile);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(profiles));
+            },
+
+            updateProfile(id, name, theme, message, image) {
+                const profiles = this.getAllProfiles();
+                const profile = profiles.find(p => p.id === id);
+                if (profile) {
+                    profile.name = name;
+                    profile.theme = theme;
+                    profile.message = message;
+                    profile.image = image;
+                    profile.updatedAt = new Date().toISOString();
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(profiles));
+                }
+            },
+
+            removeProfile(id) {
+                const profiles = this.getAllProfiles();
+                const filtered = profiles.filter(p => p.id !== id);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
+            }
+        };
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            app.init();
+        });
+    </script>
+</body>
+</html>
